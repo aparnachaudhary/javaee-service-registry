@@ -38,11 +38,22 @@ public class ApplicationRegistrant {
     @Resource(lookup = "java:app/AppName")
     private String appName;
 
+    private String dependencies;
+
     /**
      * @param init
      */
     public void onInitialize(@Observes @Initialized(ApplicationScoped.class) Object init) {
         LOG.info("Started : {}", init);
+        InitialContext initialContext = null;
+        try {
+            initialContext = new InitialContext();
+            dependencies = (String) initialContext.lookup("java:app/serviceDependency");
+        } catch (NameNotFoundException e) {
+            LOG.info("No dependencies defined");
+        } catch (NamingException e) {
+            throw new IllegalStateException("Failed to intialize");
+        }
         register();
     }
 
@@ -59,7 +70,9 @@ public class ApplicationRegistrant {
      */
     public void onEndpointAdded(@Observes EndpointAdded endpointAdded) {
         EndpointId endpointId = endpointAdded.getEndpointId();
-        LOG.info("=========== endpointAdded: {} ===========", endpointId);
+        LOG.info("-------------------------------------------------------------------");
+        LOG.info("endpointAdded: {}", endpointId);
+        LOG.info("-------------------------------------------------------------------");
         register();
     }
 
@@ -68,7 +81,9 @@ public class ApplicationRegistrant {
      */
     public void onEndpointRemoved(@Observes EndpointRemoved endpointRemoved) {
         EndpointId endpointId = endpointRemoved.getEndpointId();
-        LOG.info("=========== endpointRemoved: {} ===========", endpointId);
+        LOG.info("-------------------------------------------------------------------");
+        LOG.info("endpointRemoved: {}", endpointId);
+        LOG.info("-------------------------------------------------------------------");
         if (!endpointRegistry.existsDependencies(getLocalEndpoint())) {
             unregister();
         }
@@ -77,16 +92,20 @@ public class ApplicationRegistrant {
     private void register() {
         EndpointInfo endpointInfo = getLocalEndpoint();
         if (endpointRegistry.existsDependencies(endpointInfo)) {
+            LOG.info("*******************************************************************");
             endpointRegistry.addEndpoint(endpointInfo);
+            LOG.info("*******************************************************************");
         } else {
-            LOG.warn("All dependent Services are not yet available for {}", endpointInfo.getEndpointId());
+            LOG.warn("All required services are not yet available for {}", endpointInfo.getEndpointId());
         }
     }
 
     private void unregister() {
         EndpointInfo consumerEndpointInfo = endpointRegistry.getEndpoint(getLocalEndpoint().getEndpointId());
         if (consumerEndpointInfo != null) {
+            LOG.info("*******************************************************************");
             endpointRegistry.removeEndpoint(getLocalEndpoint().getEndpointId());
+            LOG.info("*******************************************************************");
         }
     }
 
@@ -97,21 +116,12 @@ public class ApplicationRegistrant {
 
         Set<EndpointId> endpoints = new HashSet<>();
 
-        InitialContext initialContext = null;
-        try {
-            initialContext = new InitialContext();
-            String dependencies = (String) initialContext.lookup("java:app/serviceDependency");
-            if (dependencies != null) {
-                LOG.info("$$$$$$$$$ {}", dependencies);
-                EndpointId dependencyId = EndpointId.EndpointIdBuilder.newBuilder()
-                        .setAppName(dependencies)
-                        .createEndpointId();
-                endpoints.add(dependencyId);
-            }
-        } catch (NameNotFoundException e) {
-            LOG.info("No dependencies defined");
-        } catch (NamingException e) {
-            e.printStackTrace();
+        if (dependencies != null) {
+            LOG.info("$$$$$$$$$ {}", dependencies);
+            EndpointId dependencyId = EndpointId.EndpointIdBuilder.newBuilder()
+                    .setAppName(dependencies)
+                    .createEndpointId();
+            endpoints.add(dependencyId);
         }
 
         return EndpointInfo.EndpointInfoBuilder.newBuilder()
