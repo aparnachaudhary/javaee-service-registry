@@ -1,0 +1,9 @@
+batch
+/subsystem=infinispan/cache-container=serviceRegistry/:add(default-cache=myCache)
+/subsystem=infinispan/cache-container=serviceRegistry/transport=TRANSPORT/:add(lock-timeout=60000)
+/subsystem=infinispan/cache-container=serviceRegistry:write-attribute(name=module, value=org.wildfly.clustering.server)
+/subsystem=infinispan/cache-container=serviceRegistry/replicated-cache=myCache/:add(mode=ASYNC, statistics-enabled=true)
+/subsystem=infinispan/cache-container=serviceRegistry/replicated-cache=myCache/transaction=TRANSACTION/:add(mode=BATCH)
+# Execute and reload
+run-batch
+:reload

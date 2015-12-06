@@ -1,0 +1,11 @@
+= Introduction
+Aparna Chaudhary <https://twitter.com/aparnachaudhary[@aparnachaudhary]>
+{localdate}
+:toc2:
+:icons: font
+:toclevels: 2
+:numbered:
+
+
+The ``javaee-service-registry`` module provides a Infinispan based service registry.
+

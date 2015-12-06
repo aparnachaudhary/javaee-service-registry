@@ -1,0 +1,22 @@
+= javaee-service-registry
+
+JGroups and Infinispan based Service Registry for JavaEE
+
+== But Why?
+
+
+=== Requirements: ===
+* Apache Maven version 3.x
+* Infinispan 7.x
+
+=== Quickstart: ===
+
+
+
+=== Feedback: ===
+
+Please feel free to raise bug reports or feature requests here https://github.com/aparnachaudhary/javaee-service-registry/issues?state=open[Issues].
+
+=== Licensing and Copyright: ===
+
+The project is licensed under the http://www.apache.org/licenses/LICENSE-2.0[Apache License, Version 2.0]
