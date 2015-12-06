@@ -52,5 +52,10 @@ public interface EndpointRegistry {
      */
     boolean existsDependencies(EndpointInfo endpointInfo);
 
+    /**
+     * Retrieve current EndpointId.
+     *
+     * @return endpoint id
+     */
     EndpointId getCurrentEndpoint();
 }

@@ -5,15 +5,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 /**
- * REST Endpoint for feed producer
+ * REST Endpoint for health check
  *
  * @author Aparna Chaudhary
  */
-@Path("/tweet")
-public interface TweetResource {
+@Path("/health")
+public interface HealthResource {
 
-    @Path("greet")
     @GET
-    @Produces({ "application/json" }) String sayHi();
+    @Produces({"application/json"})
+    String getHealth();
 
 }

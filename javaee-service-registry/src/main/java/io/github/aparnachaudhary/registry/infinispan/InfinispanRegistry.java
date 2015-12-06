@@ -127,7 +127,8 @@ public class InfinispanRegistry implements EndpointRegistry {
     @Override
     public EndpointId getCurrentEndpoint() {
         EndpointId endpointId = EndpointId.EndpointIdBuilder.newBuilder()
-                .setNodeName(System.getProperty(NODE_NAME)).setAppName(appName)
+                .setNodeName(System.getProperty(NODE_NAME))
+                .setAppName(appName)
                 .createEndpointId();
         return endpointId;
     }
