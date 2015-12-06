@@ -15,7 +15,9 @@
     <name>${project.groupId}:${project.artifactId}</name>
 
     <modules>
+        <module>tweet-domain</module>
         <module>tweet-producer</module>
+        <module>tweet-consumer</module>
     </modules>
 
     <dependencyManagement>
@@ -23,6 +25,11 @@
             <dependency>
                 <groupId>io.github.aparnachaudhary</groupId>
                 <artifactId>javaee-service-registry</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.aparnachaudhary</groupId>
+                <artifactId>javaee-service-registry-tweet-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
