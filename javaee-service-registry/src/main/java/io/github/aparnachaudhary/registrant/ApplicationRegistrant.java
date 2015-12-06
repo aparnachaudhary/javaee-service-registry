@@ -27,7 +27,7 @@ public class ApplicationRegistrant {
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationRegistrant.class);
 
     private static final String NODE_NAME = "jboss.node.name";
-    private static final String PRODUCER_APP_NAME = "feed-producer";
+    private static final String SERVICE_DEP_JNDI = "java:app/serviceDependency";
 
     @Inject
     private EndpointRegistry endpointRegistry;
@@ -35,22 +35,24 @@ public class ApplicationRegistrant {
     @Resource(lookup = "java:app/AppName")
     private String appName;
 
-    private String dependencies;
+    private EndpointInfo endpointInfo;
 
     /**
      * @param init
      */
     public void onInitialize(@Observes @Initialized(ApplicationScoped.class) Object init) {
         LOG.info("Started : {}", init);
-        InitialContext initialContext = null;
+        String dependencies = null;
         try {
-            initialContext = new InitialContext();
-            dependencies = (String) initialContext.lookup("java:app/serviceDependency");
+            InitialContext initialContext = new InitialContext();
+            dependencies = (String) initialContext.lookup(SERVICE_DEP_JNDI);
         } catch (NameNotFoundException e) {
             LOG.info("No dependencies defined");
         } catch (NamingException e) {
-            throw new IllegalStateException("Failed to intialize");
+            throw new IllegalStateException("Failed to initialize");
         }
+        // current endpoint
+        endpointInfo = getLocalEndpoint(dependencies);
         register();
     }
 
@@ -81,13 +83,12 @@ public class ApplicationRegistrant {
         LOG.info("-------------------------------------------------------------------");
         LOG.info("endpointRemoved: {}", endpointId);
         LOG.info("-------------------------------------------------------------------");
-        if (!endpointRegistry.existsDependencies(getLocalEndpoint())) {
+        if (!endpointRegistry.existsDependencies(endpointInfo)) {
             unregister();
         }
     }
 
     private void register() {
-        EndpointInfo endpointInfo = getLocalEndpoint();
         if (endpointRegistry.existsDependencies(endpointInfo)) {
             endpointInfo.setStatus(EndpointStatus.UP);
             LOG.info("*******************************************************************");
@@ -99,7 +100,7 @@ public class ApplicationRegistrant {
     }
 
     private void unregister() {
-        EndpointInfo localEndpointInfo = endpointRegistry.getEndpoint(getLocalEndpoint().getEndpointId());
+        EndpointInfo localEndpointInfo = endpointRegistry.getEndpoint(endpointInfo.getEndpointId());
         if (localEndpointInfo != null) {
             LOG.info("*******************************************************************");
             endpointRegistry.removeEndpoint(localEndpointInfo.getEndpointId());
@@ -107,25 +108,25 @@ public class ApplicationRegistrant {
         }
     }
 
-    private EndpointInfo getLocalEndpoint() {
+    private EndpointInfo getLocalEndpoint(String dependencies) {
         EndpointId endpointId = EndpointId.EndpointIdBuilder.newBuilder()
                 .setNodeName(System.getProperty(NODE_NAME)).setAppName(appName)
                 .createEndpointId();
 
-        Set<DependencyId> endpoints = new HashSet<>();
+        Set<DependencyId> dependencyIds = new HashSet<>();
 
         if (dependencies != null) {
             LOG.info("$$$$$$$$$ {}", dependencies);
             DependencyId dependencyId = DependencyId.DependencyIdBuilder.newBuilder()
                     .setAppName(dependencies)
                     .createEndpointId();
-            endpoints.add(dependencyId);
+            dependencyIds.add(dependencyId);
         }
 
         return EndpointInfo.EndpointInfoBuilder.newBuilder()
                 .setEndpointId(endpointId)
                 .setStatus(EndpointStatus.STARTING)
-                .setDependencies(endpoints)
+                .setDependencies(dependencyIds)
                 .createEndpointInfo();
     }
 
