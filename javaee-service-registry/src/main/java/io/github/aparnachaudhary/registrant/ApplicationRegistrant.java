@@ -15,6 +15,11 @@ import javax.enterprise.context.Destroyed;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
+import javax.naming.NamingException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Aparna
@@ -89,12 +94,30 @@ public class ApplicationRegistrant {
         EndpointId endpointId = EndpointId.EndpointIdBuilder.newBuilder()
                 .setNodeName(System.getProperty(NODE_NAME)).setAppName(appName)
                 .createEndpointId();
-//        EndpointId producerEndpointId = EndpointId.EndpointIdBuilder.newBuilder()
-//                .setAppName(PRODUCER_APP_NAME)
-//                .createEndpointId();
+
+        Set<EndpointId> endpoints = new HashSet<>();
+
+        InitialContext initialContext = null;
+        try {
+            initialContext = new InitialContext();
+            String dependencies = (String) initialContext.lookup("java:app/serviceDependency");
+            if (dependencies != null) {
+                LOG.info("$$$$$$$$$ {}", dependencies);
+                EndpointId dependencyId = EndpointId.EndpointIdBuilder.newBuilder()
+                        .setAppName(dependencies)
+                        .createEndpointId();
+                endpoints.add(dependencyId);
+            }
+        } catch (NameNotFoundException e) {
+            LOG.info("No dependencies defined");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+
         return EndpointInfo.EndpointInfoBuilder.newBuilder()
                 .setEndpointId(endpointId)
                 .setStatus(EndpointStatus.STARTING)
+                .setDependencies(endpoints)
                 .createEndpointInfo();
     }
 

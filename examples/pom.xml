@@ -17,7 +17,7 @@
     <modules>
         <module>tweet-domain</module>
         <module>tweet-producer</module>
-        <module>tweet-consumer</module>
+        <module>tweet-store</module>
     </modules>
 
     <dependencyManagement>

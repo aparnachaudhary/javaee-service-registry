@@ -10,7 +10,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>javaee-service-registry-tweet-consumer</artifactId>
+    <artifactId>javaee-service-registry-tweet-store</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <packaging>war</packaging>
 
