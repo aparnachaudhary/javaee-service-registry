@@ -1,5 +1,6 @@
 package io.github.aparnachaudhary.registry.infinispan;
 
+import io.github.aparnachaudhary.registry.DependencyId;
 import io.github.aparnachaudhary.registry.EndpointId;
 import io.github.aparnachaudhary.registry.EndpointInfo;
 import io.github.aparnachaudhary.registry.EndpointRegistry;
@@ -115,8 +116,8 @@ public class InfinispanRegistry implements EndpointRegistry {
 
     @Override
     public boolean existsDependencies(EndpointInfo endpointInfo) {
-        Set<EndpointId> dependencies = endpointInfo.getDependencies();
-        for (EndpointId dependency : dependencies) {
+        Set<DependencyId> dependencies = endpointInfo.getDependencies();
+        for (DependencyId dependency : dependencies) {
             if (!existsEndpoint(dependency.getAppName())) {
                 return false;
             }

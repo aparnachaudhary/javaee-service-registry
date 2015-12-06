@@ -12,12 +12,12 @@ public class EndpointInfo implements Serializable {
 
     private EndpointId endpointId;
     private EndpointStatus status;
-    private Set<EndpointId> dependencies = Collections.synchronizedSet(new HashSet<>());
+    private Set<DependencyId> dependencies = Collections.synchronizedSet(new HashSet<>());
 
     public EndpointInfo() {
     }
 
-    public EndpointInfo(EndpointId endpointId, EndpointStatus status, Set<EndpointId> dependencies) {
+    public EndpointInfo(EndpointId endpointId, EndpointStatus status, Set<DependencyId> dependencies) {
         this.endpointId = endpointId;
         this.status = status;
         this.dependencies = dependencies;
@@ -31,7 +31,11 @@ public class EndpointInfo implements Serializable {
         return status;
     }
 
-    public Set<EndpointId> getDependencies() {
+    public void setStatus(EndpointStatus status) {
+        this.status = status;
+    }
+
+    public Set<DependencyId> getDependencies() {
         return dependencies;
     }
 
@@ -47,7 +51,7 @@ public class EndpointInfo implements Serializable {
     public static class EndpointInfoBuilder {
         private EndpointId endpointId;
         private EndpointStatus status;
-        private Set<EndpointId> dependencies = Collections.synchronizedSet(new HashSet<>());
+        private Set<DependencyId> dependencies = Collections.synchronizedSet(new HashSet<>());
 
         public EndpointInfoBuilder() {
         }
@@ -66,12 +70,12 @@ public class EndpointInfo implements Serializable {
             return this;
         }
 
-        public EndpointInfoBuilder addDependency(EndpointId dependency) {
+        public EndpointInfoBuilder addDependency(DependencyId dependency) {
             this.dependencies.add(dependency);
             return this;
         }
 
-        public EndpointInfoBuilder setDependencies(Set<EndpointId> dependencies) {
+        public EndpointInfoBuilder setDependencies(Set<DependencyId> dependencies) {
             this.dependencies = dependencies;
             return this;
         }

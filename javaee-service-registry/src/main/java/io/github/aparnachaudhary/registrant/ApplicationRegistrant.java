@@ -1,9 +1,6 @@
 package io.github.aparnachaudhary.registrant;
 
-import io.github.aparnachaudhary.registry.EndpointId;
-import io.github.aparnachaudhary.registry.EndpointInfo;
-import io.github.aparnachaudhary.registry.EndpointRegistry;
-import io.github.aparnachaudhary.registry.EndpointStatus;
+import io.github.aparnachaudhary.registry.*;
 import io.github.aparnachaudhary.registry.event.EndpointAdded;
 import io.github.aparnachaudhary.registry.event.EndpointRemoved;
 import org.slf4j.Logger;
@@ -92,6 +89,7 @@ public class ApplicationRegistrant {
     private void register() {
         EndpointInfo endpointInfo = getLocalEndpoint();
         if (endpointRegistry.existsDependencies(endpointInfo)) {
+            endpointInfo.setStatus(EndpointStatus.UP);
             LOG.info("*******************************************************************");
             endpointRegistry.addEndpoint(endpointInfo);
             LOG.info("*******************************************************************");
@@ -101,10 +99,10 @@ public class ApplicationRegistrant {
     }
 
     private void unregister() {
-        EndpointInfo consumerEndpointInfo = endpointRegistry.getEndpoint(getLocalEndpoint().getEndpointId());
-        if (consumerEndpointInfo != null) {
+        EndpointInfo localEndpointInfo = endpointRegistry.getEndpoint(getLocalEndpoint().getEndpointId());
+        if (localEndpointInfo != null) {
             LOG.info("*******************************************************************");
-            endpointRegistry.removeEndpoint(getLocalEndpoint().getEndpointId());
+            endpointRegistry.removeEndpoint(localEndpointInfo.getEndpointId());
             LOG.info("*******************************************************************");
         }
     }
@@ -114,11 +112,11 @@ public class ApplicationRegistrant {
                 .setNodeName(System.getProperty(NODE_NAME)).setAppName(appName)
                 .createEndpointId();
 
-        Set<EndpointId> endpoints = new HashSet<>();
+        Set<DependencyId> endpoints = new HashSet<>();
 
         if (dependencies != null) {
             LOG.info("$$$$$$$$$ {}", dependencies);
-            EndpointId dependencyId = EndpointId.EndpointIdBuilder.newBuilder()
+            DependencyId dependencyId = DependencyId.DependencyIdBuilder.newBuilder()
                     .setAppName(dependencies)
                     .createEndpointId();
             endpoints.add(dependencyId);
