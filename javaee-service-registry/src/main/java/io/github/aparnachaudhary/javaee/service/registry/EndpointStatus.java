@@ -1,4 +1,4 @@
-package io.github.aparnachaudhary.registry;
+package io.github.aparnachaudhary.javaee.service.registry;
 
 /**
  * Status of service.

@@ -1,7 +1,7 @@
-package io.github.aparnachaudhary.registry.infinispan;
+package io.github.aparnachaudhary.javaee.service.registry.infinispan;
 
-import io.github.aparnachaudhary.registry.EndpointId;
-import io.github.aparnachaudhary.registry.util.PojoMapper;
+import io.github.aparnachaudhary.javaee.service.registry.EndpointId;
+import io.github.aparnachaudhary.javaee.service.registry.util.PojoMapper;
 import org.infinispan.notifications.Listener;
 import org.infinispan.notifications.cachemanagerlistener.annotation.ViewChanged;
 import org.infinispan.notifications.cachemanagerlistener.event.ViewChangedEvent;

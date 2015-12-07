@@ -1,11 +1,11 @@
-package io.github.aparnachaudhary.registry.infinispan;
+package io.github.aparnachaudhary.javaee.service.registry.infinispan;
 
-import io.github.aparnachaudhary.registry.EndpointId;
-import io.github.aparnachaudhary.registry.event.EndpointAdded;
-import io.github.aparnachaudhary.registry.event.EndpointEvent;
-import io.github.aparnachaudhary.registry.event.EndpointRemoved;
-import io.github.aparnachaudhary.registry.event.EndpointStatusChanged;
-import io.github.aparnachaudhary.registry.util.PojoMapper;
+import io.github.aparnachaudhary.javaee.service.registry.EndpointId;
+import io.github.aparnachaudhary.javaee.service.registry.event.EndpointAdded;
+import io.github.aparnachaudhary.javaee.service.registry.event.EndpointEvent;
+import io.github.aparnachaudhary.javaee.service.registry.event.EndpointRemoved;
+import io.github.aparnachaudhary.javaee.service.registry.event.EndpointStatusChanged;
+import io.github.aparnachaudhary.javaee.service.registry.util.PojoMapper;
 import org.infinispan.notifications.Listener;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryCreated;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryModified;

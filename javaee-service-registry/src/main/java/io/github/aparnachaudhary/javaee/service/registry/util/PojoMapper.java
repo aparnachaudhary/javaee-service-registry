@@ -1,4 +1,4 @@
-package io.github.aparnachaudhary.registry.util;
+package io.github.aparnachaudhary.javaee.service.registry.util;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;

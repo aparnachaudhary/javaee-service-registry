@@ -1,11 +1,11 @@
-package io.github.aparnachaudhary.registry.infinispan;
+package io.github.aparnachaudhary.javaee.service.registry.infinispan;
 
-import io.github.aparnachaudhary.registry.DependencyId;
-import io.github.aparnachaudhary.registry.EndpointId;
-import io.github.aparnachaudhary.registry.EndpointInfo;
-import io.github.aparnachaudhary.registry.EndpointRegistry;
-import io.github.aparnachaudhary.registry.event.EndpointEvent;
-import io.github.aparnachaudhary.registry.util.PojoMapper;
+import io.github.aparnachaudhary.javaee.service.registry.DependencyId;
+import io.github.aparnachaudhary.javaee.service.registry.EndpointId;
+import io.github.aparnachaudhary.javaee.service.registry.EndpointInfo;
+import io.github.aparnachaudhary.javaee.service.registry.event.EndpointEvent;
+import io.github.aparnachaudhary.javaee.service.registry.util.PojoMapper;
+import io.github.aparnachaudhary.javaee.service.registry.EndpointRegistry;
 import org.infinispan.manager.CacheContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

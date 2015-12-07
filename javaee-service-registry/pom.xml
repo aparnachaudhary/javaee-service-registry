@@ -26,6 +26,11 @@
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.interceptor</groupId>
+            <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!-- We use the Infinispan provided by WildFly -->
         <dependency>
             <groupId>org.infinispan</groupId>

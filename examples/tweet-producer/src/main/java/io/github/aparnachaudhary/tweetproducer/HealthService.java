@@ -1,8 +1,8 @@
 package io.github.aparnachaudhary.tweetproducer;
 
-import io.github.aparnachaudhary.registry.EndpointInfo;
-import io.github.aparnachaudhary.registry.EndpointRegistry;
-import io.github.aparnachaudhary.registry.util.PojoMapper;
+import io.github.aparnachaudhary.javaee.service.registry.EndpointInfo;
+import io.github.aparnachaudhary.javaee.service.registry.EndpointRegistry;
+import io.github.aparnachaudhary.javaee.service.registry.util.PojoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

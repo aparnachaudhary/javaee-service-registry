@@ -1,8 +1,8 @@
-package io.github.aparnachaudhary.registrant;
+package io.github.aparnachaudhary.javaee.service.registrant;
 
-import io.github.aparnachaudhary.registry.*;
-import io.github.aparnachaudhary.registry.event.EndpointAdded;
-import io.github.aparnachaudhary.registry.event.EndpointRemoved;
+import io.github.aparnachaudhary.javaee.service.registry.*;
+import io.github.aparnachaudhary.javaee.service.registry.event.EndpointRemoved;
+import io.github.aparnachaudhary.javaee.service.registry.event.EndpointAdded;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
